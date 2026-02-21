@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AuthController;
 
 Auth::routes();
 
@@ -17,3 +18,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('kategori', App\Http\Controllers\KategoriController::class);
     Route::resource('buku', App\Http\Controllers\BukuController::class);
 });
+
+Route::get('/auth/google', [AuthController::class, 'redirectToGoogle']);
+Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
+
+Route::get('/otp', [\App\Http\Controllers\AuthController::class, 'showOtpForm']);
+Route::post('/verify-otp', [\App\Http\Controllers\AuthController::class, 'verifyOtp']);
