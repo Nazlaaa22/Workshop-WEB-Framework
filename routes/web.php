@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PdfController;
 
 Auth::routes();
 
@@ -24,3 +25,6 @@ Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallbac
 
 Route::get('/otp', [\App\Http\Controllers\AuthController::class, 'showOtpForm']);
 Route::post('/verify-otp', [\App\Http\Controllers\AuthController::class, 'verifyOtp']);
+
+Route::get('/pdf-sertifikat', [PdfController::class, 'sertifikat']);
+Route::get('/pdf-undangan', [PdfController::class, 'undangan']);
