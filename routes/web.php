@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\BarangController;
 
 Auth::routes();
 
@@ -28,3 +29,5 @@ Route::post('/verify-otp', [\App\Http\Controllers\AuthController::class, 'verify
 
 Route::get('/pdf-sertifikat', [PdfController::class, 'sertifikat']);
 Route::get('/pdf-undangan', [PdfController::class, 'undangan']);
+Route::resource('barang', \App\Http\Controllers\BarangController::class)->middleware('auth');
+Route::post('/barang/print', [BarangController::class, 'print'])->name('barang.print')->middleware('auth');
