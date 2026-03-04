@@ -2,21 +2,37 @@
 <html>
 <head>
 <style>
-@page { margin: 10mm; }
-
-body { font-family: Arial; }
-
-table { width: 100%; border-collapse: collapse; }
-
-td {
-    width: 20%;
-    height: 80px;
-    text-align: center;
-    vertical-align: middle;
+@page {
+    margin: 0;
 }
 
-.nama { font-size: 12px; font-weight: bold; }
-.harga { font-size: 14px; }
+body {
+    margin: 0;
+    padding: 0.5cm;
+    font-family: Arial, sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td {
+    width: 3.8cm;
+    height: 1.8cm;
+    border: 1px solid #e6e28a;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0px;
+}
+
+.nama {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.harga {
+    font-size: 10px;
+}
 </style>
 </head>
 <body>
@@ -39,7 +55,6 @@ $barangIndex = 0;
 
         <td>
 
-            {{-- Kalau slot sudah melewati startPosition --}}
             @if($slot >= $startPosition && $barangIndex < count($barang))
                 <div class="nama">
                     {{ $barang[$barangIndex]->nama_barang }}

@@ -35,14 +35,6 @@ class BarangController extends Controller
                          ->with('success', 'Barang berhasil ditambahkan');
     }
 
-    public function destroy($id)
-    {
-        Barang::findOrFail($id)->delete();
-
-        return redirect()->route('barang.index')
-                         ->with('success', 'Barang berhasil dihapus');
-    }
-
     public function print(Request $request)
     {
         $request->validate([
@@ -58,7 +50,9 @@ class BarangController extends Controller
         $pdf = Pdf::loadView('barang.label', [
             'barang' => $barang,
             'startPosition' => $startPosition
-        ])->setPaper('a4');
+        ]);
+
+        $pdf->setPaper('A4');
 
         return $pdf->stream('label.pdf');
     }

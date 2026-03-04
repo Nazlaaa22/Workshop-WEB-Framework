@@ -39,17 +39,17 @@
                 </a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item {{ request()->is('barang*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('barang.index') }}">
-                    <i class="mdi mdi-cart-outline"></i>
                     <span class="menu-title">Barang UMKM</span>
+                    <i class="mdi mdi-cart-outline menu-icon"></i>
                 </a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#pdfMenu">
-                    <i class="mdi mdi-file-pdf-box menu-icon"></i>
                     <span class="menu-title">Generate PDF</span>
+                    <i class="mdi mdi-file-pdf-box menu-icon"></i>
                     <i class="menu-arrow"></i>
                 </a>
                 <div class="collapse" id="pdfMenu">

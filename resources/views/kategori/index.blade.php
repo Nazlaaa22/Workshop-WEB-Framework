@@ -8,6 +8,14 @@
     <h3 class="page-title">
         Kategori
     </h3>
+    <nav arial-label="breadcrumb">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/home">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current= "page">
+                <span></span>Kategori <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+            </li>
+        </ul>
+    </nav>    
 </div>
 
 @if(session('success'))
