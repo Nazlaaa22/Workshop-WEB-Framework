@@ -46,6 +46,25 @@
                 </a>
             </li>
 
+            <li class="nav-item {{ request()->is('barang-js') ? 'active' : '' }}">
+                <a class="nav-link" href="/barang-js">
+                    <span class="menu-title">Data Barang JS</span>
+                </a>
+            </li>
+
+            <li class="nav-item {{ request()->is('barang-js/datatables') ? 'active' : '' }}">
+                <a class="nav-link" href="/barang-js/datatables">
+                    <span class="menu-title">Data Barang JS Datatable</span>
+                </a>
+            </li>
+
+            <li class="nav-item {{ request()->is('kota') ? 'active' : '' }}">
+                <a class="nav-link" href="/kota">
+                    <span class="menu-title">Select Kota</span>
+                    <i class="mdi mdi-map-marker menu-icon"></i>
+                </a>
+            </li>
+
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#pdfMenu">
                     <span class="menu-title">Generate PDF</span>

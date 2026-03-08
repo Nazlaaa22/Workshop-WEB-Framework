@@ -13,7 +13,7 @@
 <div class="card">
     <div class="card-body">
 
-        <form action="{{ route('kategori.store') }}" method="POST">
+        <form id="formKategori" action="{{ route('kategori.store') }}" method="POST">
             @csrf
 
             <div class="form-group">
@@ -24,7 +24,7 @@
                        required>
             </div>
 
-            <button class="btn btn-primary mt-3">
+            <button type="button" id="btnSubmit" class="btn btn-primary mt-3">
                 Simpan
             </button>
 
@@ -37,5 +37,32 @@
 
     </div>
 </div>
+
+@endsection
+
+@section('script')
+
+<script>
+$(document).ready(function(){
+
+    $("#btnSubmit").click(function(){
+
+        let form = document.getElementById("formKategori");
+
+        if(!form.checkValidity()){
+            form.reportValidity();
+            return;
+        }
+
+        $("#btnSubmit").html(
+            '<span class="spinner-border spinner-border-sm"></span> Loading...'
+        );
+
+        form.submit();
+
+    });
+
+});
+</script>
 
 @endsection

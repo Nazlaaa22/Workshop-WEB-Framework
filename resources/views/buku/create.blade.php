@@ -23,7 +23,7 @@
 <div class="card">
     <div class="card-body">
 
-        <form action="{{ route('buku.store') }}" method="POST">
+        <form id="formBuku" action="{{ route('buku.store') }}" method="POST">
             @csrf
 
             <div class="form-group mb-3">
@@ -68,7 +68,7 @@
                 </select>
             </div>
 
-            <button class="btn btn-gradient-primary me-2">
+            <button type="button" id="btnSubmitBuku" class="btn btn-gradient-primary me-2">
                 Simpan
             </button>
 
@@ -81,5 +81,32 @@
 
     </div>
 </div>
+
+@endsection
+
+@section('script')
+
+<script>
+$(document).ready(function(){
+
+    $("#btnSubmitBuku").click(function(){
+
+        let form = document.getElementById("formBuku");
+
+        if(!form.checkValidity()){
+            form.reportValidity();
+            return;
+        }
+
+        $("#btnSubmitBuku").html(
+            '<span class="spinner-border spinner-border-sm"></span> Loading...'
+        );
+
+        form.submit();
+
+    });
+
+});
+</script>
 
 @endsection

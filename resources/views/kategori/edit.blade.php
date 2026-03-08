@@ -24,7 +24,7 @@
 <div class="card">
     <div class="card-body">
 
-        <form action="{{ route('kategori.update', $data->id) }}" method="POST">
+        <form id="formKategoriEdit" action="{{ route('kategori.update', $data->id) }}" method="POST">
             @csrf
             @method('PUT')
 
@@ -37,7 +37,7 @@
                        required>
             </div>
 
-            <button class="btn btn-primary mt-3">
+            <button type="button" id="btnUpdate" class="btn btn-primary mt-3">
                 Update
             </button>
 
@@ -50,5 +50,32 @@
 
     </div>
 </div>
+
+@endsection
+
+@section('script')
+
+<script>
+$(document).ready(function(){
+
+    $("#btnUpdate").click(function(){
+
+        let form = document.getElementById("formKategoriEdit");
+
+        if(!form.checkValidity()){
+            form.reportValidity();
+            return;
+        }
+
+        $("#btnUpdate").html(
+            '<span class="spinner-border spinner-border-sm"></span> Loading...'
+        );
+
+        form.submit();
+
+    });
+
+});
+</script>
 
 @endsection

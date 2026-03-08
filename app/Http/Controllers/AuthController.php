@@ -33,7 +33,6 @@ class AuthController extends Controller
         $user->otp = $otp;
         $user->save();
 
-        // 🔥 Kirim OTP ke email
         Mail::raw("Kode OTP login kamu adalah: $otp", function ($message) use ($user) {
             $message->to($user->email)
                     ->subject('Kode OTP Login Laravel');
@@ -44,7 +43,6 @@ class AuthController extends Controller
         return redirect('/otp');
     }
 
-    // ✅ INI HARUS ADA DI DALAM CLASS
     public function showOtpForm()
     {
         return view('auth.otp');

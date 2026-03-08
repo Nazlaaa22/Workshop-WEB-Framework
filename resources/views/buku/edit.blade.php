@@ -28,7 +28,7 @@
 <div class="card mt-3 shadow-sm">
     <div class="card-body">
 
-        <form action="{{ route('buku.update', $buku) }}" method="POST">
+        <form id="formBukuEdit" action="{{ route('buku.update', $buku) }}" method="POST">
             @csrf
             @method('PUT')
 
@@ -77,7 +77,7 @@
             </div>
 
             <div class="mt-3">
-                <button type="submit" class="btn btn-gradient-warning">
+                <button type="button" id="btnUpdateBuku" class="btn btn-gradient-warning">
                     <i class="mdi mdi-content-save"></i> Update
                 </button>
 
@@ -90,5 +90,32 @@
 
     </div>
 </div>
+
+@endsection
+
+@section('script')
+
+<script>
+$(document).ready(function(){
+
+    $("#btnUpdateBuku").click(function(){
+
+        let form = document.getElementById("formBukuEdit");
+
+        if(!form.checkValidity()){
+            form.reportValidity();
+            return;
+        }
+
+        $("#btnUpdateBuku").html(
+            '<span class="spinner-border spinner-border-sm"></span> Loading...'
+        );
+
+        form.submit();
+
+    });
+
+});
+</script>
 
 @endsection

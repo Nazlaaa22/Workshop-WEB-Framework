@@ -31,3 +31,7 @@ Route::get('/pdf-sertifikat', [PdfController::class, 'sertifikat']);
 Route::get('/pdf-undangan', [PdfController::class, 'undangan']);
 Route::resource('barang', \App\Http\Controllers\BarangController::class)->middleware('auth');
 Route::post('/barang/print', [BarangController::class, 'print'])->name('barang.print')->middleware('auth');
+
+Route::get('/barang-js', function () {return view('barang_js.index');});
+Route::get('/barang-js/datatables', function () {return view('barang_js.datatables');});
+Route::get('/kota', function () {return view('kota.index');});
