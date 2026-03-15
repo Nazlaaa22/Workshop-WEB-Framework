@@ -65,6 +65,34 @@
                 </a>
             </li>
 
+            <li class="nav-item {{ request()->is('wilayah*') ? 'active' : '' }}">
+                <a class="nav-link" href="/wilayah">
+                    <span class="menu-title">Wilayah Indonesia AJ</span>
+                    <i class="mdi mdi-map-marker menu-icon"></i>
+                </a>
+            </li>
+
+            <li class="nav-item {{ request()->is('wilayah*') ? 'active' : '' }}">
+                <a class="nav-link" href="/wilayah">
+                    <span class="menu-title">Wilayah Indonesia AX</span>
+                    <i class="mdi mdi-map-marker menu-icon"></i>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/pos">
+                    <span class="menu-title">POS AJAX</span>
+                    <i class="mdi mdi-cash-register menu-icon"></i>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/pos-axios">
+                    <span class="menu-title">POS AXIOS</span>
+                    <i class="mdi mdi-cash-register menu-icon"></i>
+                </a>
+            </li>
+
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#pdfMenu">
                     <span class="menu-title">Generate PDF</span>
