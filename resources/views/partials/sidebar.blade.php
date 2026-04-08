@@ -153,7 +153,7 @@
 
         <li class="nav-item">
             <a class="nav-link" href="/pesanan">
-                <span class="menu-title">Pesanan Lunas</span>
+                <span class="menu-title">Pesanan Lunass</span>
                 <i class="mdi mdi-cash-check menu-icon"></i>
             </a>
         </li>
