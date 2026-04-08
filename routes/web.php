@@ -10,6 +10,12 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\WilayahController;
 
+use App\Http\Controllers\VendorController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\PesananController;
+use App\Http\Controllers\VendorDashboardController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\PaymentController;
 
 Auth::routes();
 
@@ -75,8 +81,23 @@ Route::post('/simpan-transaksi', function(Request $req){
     ]);
 });
 
-
-
-
-
-
+Route::resource('/vendor', VendorController::class);
+Route::get('/vendor-dashboard', function () {return view('vendor.dashboard');});
+Route::get('/menu', [MenuController::class, 'index']);
+Route::get('/menu/create', [MenuController::class, 'create']);
+Route::post('/menu', [MenuController::class, 'store']);
+Route::resource('/menu', MenuController::class);
+Route::get('/pesanan', [PesananController::class, 'index']);
+Route::get('/vendor-dashboard', [VendorDashboardController::class, 'index']);
+Route::get('/customer', [CustomerController::class, 'index']);
+Route::get('/pesan/{id}', [CustomerController::class, 'pesan']);
+Route::get('/pesan/{id}', [CustomerController::class, 'formPesan']);
+Route::post('/pesan', [CustomerController::class, 'storePesanan']);
+Route::post('/cart/add', [CustomerController::class, 'addToCart']);
+Route::get('/cart', [CustomerController::class, 'viewCart']);
+Route::post('/checkout', [CustomerController::class, 'checkout']);
+Route::post('/cart/remove/{id}', [CustomerController::class, 'removeCart']);
+Route::post('/cart/clear', [CustomerController::class, 'clearCart']);
+Route::get('/payment/success/{id}', [PaymentController::class, 'success']);
+Route::get('/payment', [PaymentController::class, 'payment']);
+Route::get('/pesanan-saya', [CustomerController::class, 'riwayat']);

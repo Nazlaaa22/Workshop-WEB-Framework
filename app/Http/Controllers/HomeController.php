@@ -13,6 +13,10 @@ class HomeController extends Controller
 
     public function index()
     {
+        if (auth()->user()->role == 'vendor') {
+            return redirect('/vendor-dashboard');
+        }
+
         return view('dashboard');
     }
 }
