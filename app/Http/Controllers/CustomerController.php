@@ -70,7 +70,7 @@ class CustomerController extends Controller
         $pesanan = Pesanan::create([
             'nama' => $nama,
             'total' => $total,
-            'status_bayar' => 0
+            'status_bayar' => 0,
         ]);
 
         // SIMPAN DETAIL
@@ -98,7 +98,25 @@ class CustomerController extends Controller
     public function payment()
     {
         $pesanan = Pesanan::orderBy('idpesanan', 'desc')->first();
-        return view('customer.payment', compact('pesanan'));
+
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = false;
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+
+        $params = [
+            'transaction_details' => [
+                'order_id' => $pesanan->idpesanan,
+                'gross_amount' => $pesanan->total,
+            ],
+            'customer_details' => [
+                'first_name' => $pesanan->nama,
+            ],
+        ];
+
+        $snapToken = Snap::getSnapToken($params);
+
+        return view('customer.payment', compact('pesanan', 'snapToken'));
     }
 
     public function processPayment(Request $request)
@@ -170,16 +188,9 @@ class CustomerController extends Controller
     {
         $pesanan = Pesanan::find($request->idpesanan);
 
-        $pesanan->status_bayar = 'lunas';
+        $pesanan->status_bayar = '1';
         $pesanan->save();
 
-        return redirect('/dashboard');
-    }
-
-    public function riwayat()
-    {
-        $pesanan = \App\Models\Pesanan::where('user_id', auth()->id())->get();
-
-        return view('customer.riwayat', compact('pesanan'));
+        return redirect('/customer');
     }
 }

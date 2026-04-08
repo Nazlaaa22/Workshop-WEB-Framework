@@ -26,9 +26,6 @@
 
         {{-- ================= ADMIN ================= --}}
         @if(auth()->user()->role == NULL)
-
-        {{-- SEMUA MENU LAMA (TIDAK DIUBAH SAMA SEKALI) --}}
-        
         <li class="nav-item {{ request()->is('home') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('home') }}">
                 <span class="menu-title">Dashboard</span>

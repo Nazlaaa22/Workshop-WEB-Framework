@@ -99,5 +99,4 @@ Route::post('/checkout', [CustomerController::class, 'checkout']);
 Route::post('/cart/remove/{id}', [CustomerController::class, 'removeCart']);
 Route::post('/cart/clear', [CustomerController::class, 'clearCart']);
 Route::get('/payment/success/{id}', [PaymentController::class, 'success']);
-Route::get('/payment', [PaymentController::class, 'payment']);
-Route::get('/pesanan-saya', [CustomerController::class, 'riwayat']);
+Route::get('/payment', [CustomerController::class, 'payment']);
