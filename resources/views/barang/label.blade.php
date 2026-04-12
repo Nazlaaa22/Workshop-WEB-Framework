@@ -1,78 +1,77 @@
 <!DOCTYPE html>
 <html>
-<head>
-<style>
-@page {
-    margin: 0;
-}
+    <head>
+        <style>
+            @page {
+                margin: 0;
+            }
 
-body {
-    margin: 0;
-    padding: 0.5cm;
-    font-family: Arial, sans-serif;
-}
+            body {
+                margin: 0;
+                padding: 0.5cm;
+                font-family: Arial, sans-serif;
+            }
 
-table {
-    border-collapse: collapse;
-}
+            table {
+                border-collapse: collapse;
+            }
 
-td {
-    width: 3.8cm;
-    height: 1.8cm;
-    border: 1px solid #e6e28a;
-    text-align: center;
-    vertical-align: middle;
-    padding: 0px;
-}
+            td {
+                width: 3.8cm;
+                height: 1.8cm;
+                border: 1px solid #e6e28a;
+                text-align: center;
+                vertical-align: middle;
+                padding: 0px;
+            }
 
-.nama {
-    font-size: 10px;
-    font-weight: bold;
-}
+            .nama {
+                font-size: 8px;
+                font-weight: bold;
+            }
 
-.harga {
-    font-size: 10px;
-}
-</style>
-</head>
-<body>
+            .harga {
+                font-size: 8px;
+            }
+        </style>
+    </head>
 
-@php
-$totalSlot = 40;
-$barangIndex = 0;
-@endphp
-
-<table>
-
-@for($row = 0; $row < 8; $row++)
-<tr>
-
-    @for($col = 0; $col < 5; $col++)
+    <body>
 
         @php
-            $slot = ($row * 5) + $col;
+        $totalSlot = 40;
+        $barangIndex = 0;
         @endphp
 
-        <td>
+        <table>
 
-            @if($slot >= $startPosition && $barangIndex < count($barang))
-                <div class="nama">
-                    {{ $barang[$barangIndex]->nama_barang }}
-                </div>
-                <div class="harga">
-                    Rp {{ number_format($barang[$barangIndex]->harga,0,',','.') }}
-                </div>
-                @php $barangIndex++; @endphp
-            @endif
+            @for($row = 0; $row < 8; $row++)
+            <tr>
+                @for($col = 0; $col < 5; $col++)
+                    @php
+                        $slot = ($row * 5) + $col;
+                    @endphp
+                    <td>
+                        @if($slot >= $startPosition && $barangIndex < count($barang))
+                            <img src="data:image/png;base64,{{ $barang[$barangIndex]->barcode }}" width="100"><br>
 
-        </td>
+                            <div style="font-size:8px;">
+                                {{ $barang[$barangIndex]->id_barang }}
+                            </div>
 
-    @endfor
+                            <div class="nama">
+                                {{ $barang[$barangIndex]->nama_barang }}
+                            </div>
 
-</tr>
-@endfor
-
-</table>
-
-</body>
+                            <div class="harga">
+                                Rp {{ number_format($barang[$barangIndex]->harga,0,',','.') }}
+                            </div>
+                            @php $barangIndex++; @endphp
+                        @endif
+                    </td>
+                @endfor
+            </tr>
+            @endfor
+        </table>
+    </body>
 </html>

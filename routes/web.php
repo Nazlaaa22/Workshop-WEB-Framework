@@ -16,6 +16,7 @@ use App\Http\Controllers\PesananController;
 use App\Http\Controllers\VendorDashboardController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\AdminCustomerController;
 
 Auth::routes();
 
@@ -100,3 +101,12 @@ Route::post('/cart/remove/{id}', [CustomerController::class, 'removeCart']);
 Route::post('/cart/clear', [CustomerController::class, 'clearCart']);
 Route::get('/payment/success/{id}', [PaymentController::class, 'success']);
 Route::get('/payment', [CustomerController::class, 'payment']);
+Route::get('/pesanan/{id}', [CustomerController::class, 'detail']);
+
+Route::prefix('admin/customer')->group(function () {
+    Route::get('/', [AdminCustomerController::class, 'index']);
+    Route::get('/create2', [AdminCustomerController::class, 'create2']);
+    Route::post('/store2', [AdminCustomerController::class, 'store2']);
+});
+Route::get('/admin/customer/create1', [AdminCustomerController::class, 'create1']);
+Route::post('/admin/customer/store1', [AdminCustomerController::class, 'store1']);

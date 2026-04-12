@@ -130,8 +130,38 @@
             </a>
         </li>
 
-        @endif
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#customerMenu" role="button" aria-expanded="false" aria-controls="customerMenu">
+                <span class="menu-title">Customer</span>
+                <i class="menu-arrow"></i>
+                <i class="mdi mdi-account-multiple menu-icon"></i>
+            </a>
 
+            <div class="collapse" id="customerMenu">
+                <ul class="nav flex-column sub-menu">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/customer">
+                            Data Customer
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/customer/create1">
+                            Tambah Customer (BLOB)
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/customer/create2">
+                            Tambah Customer (FILE)
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </li>
+        @endif
 
 
         {{-- ================= VENDOR ================= --}}

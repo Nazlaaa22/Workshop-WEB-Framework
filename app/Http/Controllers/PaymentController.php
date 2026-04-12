@@ -44,6 +44,6 @@ class PaymentController extends Controller
         $pesanan->status_bayar = 1; 
         $pesanan->save();
 
-        return redirect('/customer');
+        return view('customer.success', compact('pesanan'));
     }
 }

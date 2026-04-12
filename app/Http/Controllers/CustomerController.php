@@ -193,4 +193,17 @@ class CustomerController extends Controller
 
         return redirect('/customer');
     }
+
+    public function detail($id)
+    {
+        $pesanan = \App\Models\Pesanan::find($id);
+
+        if (!$pesanan) {
+            return "Pesanan tidak ditemukan";
+        }
+
+        $detail = \App\Models\DetailPesanan::where('idpesanan', $id)->get();
+
+        return view('customer.detail', compact('pesanan', 'detail'));
+    }
 }
