@@ -161,6 +161,13 @@
                 </ul>
             </div>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/admin/barcode-scanner">
+                <span class="menu-title">Scan Barcode</span>
+                <i class="mdi mdi-barcode-scan menu-icon"></i>
+            </a>
+        </li>
         @endif
 
 
@@ -185,6 +192,13 @@
             <a class="nav-link" href="/pesanan">
                 <span class="menu-title">Pesanan Lunas</span>
                 <i class="mdi mdi-cash-check menu-icon"></i>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/vendor-scan-qr">
+                <span class="menu-title">Scan QR</span>
+                <i class="mdi mdi-qrcode-scan menu-icon"></i>
             </a>
         </li>
 

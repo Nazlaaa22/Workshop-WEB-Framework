@@ -65,4 +65,11 @@ class BarangController extends Controller
 
         return $pdf->stream('label.pdf');
     }
+
+    public function getBarcode($kode)
+    {
+        $barang = Barang::where('id_barang', $kode)->first();
+
+        return response()->json($barang);
+    }
 }

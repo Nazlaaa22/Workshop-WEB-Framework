@@ -110,3 +110,10 @@ Route::prefix('admin/customer')->group(function () {
 });
 Route::get('/admin/customer/create1', [AdminCustomerController::class, 'create1']);
 Route::post('/admin/customer/store1', [AdminCustomerController::class, 'store1']);
+
+Route::get('/admin/barcode-scanner', function () {return view('admin.barcode_scanner');});
+Route::get('/admin/barcode/get/{kode}', [BarangController::class, 'getBarcode']);
+
+Route::get('/vendor-scan-qr', [VendorController::class, 'scanQr'])->name('vendor.scan.qr');
+Route::resource('vendor', VendorController::class);
+Route::get('/vendor/get-pesanan/{id}', [VendorController::class, 'getPesanan']);

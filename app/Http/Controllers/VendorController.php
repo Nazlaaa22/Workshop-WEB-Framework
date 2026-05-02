@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class VendorController extends Controller
 {
@@ -54,5 +55,37 @@ class VendorController extends Controller
     {
         User::destroy($id);
         return redirect('/vendor');
+    }
+
+    public function scanQr()
+    {
+        return view('vendor.scan_qr');
+    }
+
+    public function getPesanan($id)
+    {
+        try {
+            $pesanan = DB::table('pesanan')
+                ->where('idpesanan', $id)
+                ->first();
+
+            if (!$pesanan) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Pesanan tidak ditemukan'
+                ]);
+            }
+
+            return response()->json([
+                'status' => true,
+                'data' => $pesanan
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 }
