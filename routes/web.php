@@ -117,3 +117,4 @@ Route::get('/admin/barcode/get/{kode}', [BarangController::class, 'getBarcode'])
 Route::get('/vendor-scan-qr', [VendorController::class, 'scanQr'])->name('vendor.scan.qr');
 Route::resource('vendor', VendorController::class);
 Route::get('/vendor/get-pesanan/{id}', [VendorController::class, 'getPesanan']);
+Route::get('/pesanan/{id}', [CustomerController::class, 'detail']);

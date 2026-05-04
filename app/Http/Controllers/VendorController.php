@@ -65,6 +65,7 @@ class VendorController extends Controller
     public function getPesanan($id)
     {
         try {
+            // ambil pesanan
             $pesanan = DB::table('pesanan')
                 ->where('idpesanan', $id)
                 ->first();
@@ -76,9 +77,26 @@ class VendorController extends Controller
                 ]);
             }
 
+            // ambil detail + menu
+            $items = DB::table('detail_pesanan')
+                ->join('menu', 'detail_pesanan.idmenu', '=', 'menu.idmenu')
+                ->where('detail_pesanan.idpesanan', $id)
+                ->select(
+                    'menu.nama_menu',
+                    'detail_pesanan.jumlah',
+                    'detail_pesanan.harga'
+                )
+                ->get();
+
             return response()->json([
                 'status' => true,
-                'data' => $pesanan
+                'data' => [
+                    'idpesanan' => $pesanan->idpesanan,
+                    'nama' => $pesanan->nama,
+                    'total' => $pesanan->total,
+                    'status_bayar' => $pesanan->status_bayar,
+                    'items' => $items 
+                ]
             ]);
 
         } catch (\Exception $e) {

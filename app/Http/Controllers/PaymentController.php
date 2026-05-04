@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Pesanan;
 use Midtrans\Snap;
 use Midtrans\Config;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -43,7 +44,17 @@ class PaymentController extends Controller
 
         $pesanan->status_bayar = 1; 
         $pesanan->save();
+        $detail = DB::table('detail_pesanan')
+            ->join('menu', 'detail_pesanan.idmenu', '=', 'menu.idmenu')
+            ->where('detail_pesanan.idpesanan', $id)
+            ->select(
+                'menu.nama_menu',
+                'detail_pesanan.jumlah',
+                'menu.harga',
+                DB::raw('menu.harga * detail_pesanan.jumlah as subtotal')
+            )
+            ->get();
 
-        return view('customer.success', compact('pesanan'));
+        return view('customer.success', compact('pesanan', 'detail'));
     }
 }

@@ -65,7 +65,7 @@
 <script>
 let codeReader;
 
-// 🔥 UNLOCK AUDIO (WAJIB BIAR BUNYI)
+// AUDIO
 document.body.addEventListener('click', function () {
     const beep = document.getElementById("beep");
     beep.play().then(() => {
@@ -108,20 +108,14 @@ function tampilkanData(data){
 }
 
 function startScanner() {
-
     codeReader = new ZXing.BrowserMultiFormatReader();
-
     codeReader.listVideoInputDevices().then((videoInputDevices) => {
-
         const selectedDeviceId = videoInputDevices[videoInputDevices.length - 1].deviceId;
-
         codeReader.decodeFromVideoDevice(selectedDeviceId, 'reader', (result, err) => {
             if (result) {
+                playBeep(); 
 
-                playBeep(); // 🔊 sekarang pasti bunyi
-
-                codeReader.reset(); // ⛔ stop scanner
-
+                codeReader.reset(); 
                 fetch('/admin/barcode/get/' + result.text)
                 .then(res => res.json())
                 .then(data => tampilkanData(data))
@@ -138,7 +132,7 @@ function startScanner() {
     });
 }
 
-// 🔥 SCAN DARI GAMBAR
+// SCAN DARI GAMBAR
 function scanFile() {
     const fileInput = document.getElementById('fileInput');
 
@@ -152,7 +146,7 @@ function scanFile() {
     reader.decodeFromImage(undefined, URL.createObjectURL(fileInput.files[0]))
     .then(result => {
 
-        playBeep(); // 🔊 sekarang pasti bunyi
+        playBeep();
 
         fetch('/admin/barcode/get/' + result.text)
         .then(res => res.json())

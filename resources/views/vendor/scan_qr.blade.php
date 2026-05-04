@@ -62,130 +62,138 @@
 
 </div>
 
-<!-- 🔊 SOUND (PAKAI FILE LOKAL) -->
+<!-- SOUND -->
 <audio id="beep" src="{{ asset('sound/beep.mp3') }}"></audio>
 
 <!-- ZXING -->
 <script src="https://unpkg.com/@zxing/library@latest"></script>
 
 <script>
+    let codeReader;
 
-let codeReader;
+    // 🔊 PLAY BEEP 
+    function playBeep(){
+        const beep = document.getElementById("beep");
+        beep.currentTime = 0;
 
-// 🔊 PLAY BEEP
-function playBeep(){
-    const beep = document.getElementById("beep");
-    beep.currentTime = 0;
-
-    const playPromise = beep.play();
-    if (playPromise !== undefined) {
-        playPromise.catch(() => {});
+        const playPromise = beep.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {});
+        }
     }
-}
 
-// 🎯 TAMPILKAN DATA (FIX SESUAI RESPONSE API)
-function tampilkanData(res){
-
-    if(res.status){
-
-        const data = res.data;
-
-        document.getElementById('result').innerHTML = `
-            <div class="alert alert-success">
-                <h5><b>Pesanan ID: ${data.idpesanan}</b></h5>
-                <hr>
-                <p>Nama: ${data.nama}</p>
-                <p>Total: Rp ${data.total}</p>
-                <hr>
-                <b>Status: ${data.status_bayar == 1 ? 'Lunas' : 'Belum Bayar'}</b>
-            </div>
-        `;
-
-    } else {
-        document.getElementById('result').innerHTML = `
-            <div class="alert alert-danger">
-                Data pesanan tidak ditemukan
-            </div>
-        `;
-    }
-}
-
-// 📷 START CAMERA SCAN
-function startScanner(){
-
-    codeReader = new ZXing.BrowserMultiFormatReader();
-
-    codeReader.listVideoInputDevices().then((devices) => {
-
-        const selectedDeviceId = devices[devices.length - 1].deviceId;
-
-        codeReader.decodeFromVideoDevice(selectedDeviceId, 'reader', (result, err) => {
-
-            if(result){
-
-                playBeep(); // 🔊
-
-                codeReader.reset(); // ⛔ stop scan
-
-                ambilData(result.text);
-
+    // 🎯 TAMPILKAN DATA
+    function tampilkanData(res){
+        if(res.status){
+            const data = res.data;
+            let menuList = '';
+            if(data.items && data.items.length > 0){
+                data.items.forEach(item => {
+                    menuList += `
+                        <tr style="background:transparent;">
+                            <td style="text-align:left;">${item.nama_menu}</td>
+                            <td>${item.jumlah}</td>
+                            <td>Rp ${item.harga}</td>
+                        </tr>
+                    `;
+                });
             }
 
+            document.getElementById('result').innerHTML = `
+                <div class="alert alert-success" style="background:rgba(0,0,0,0.05); border:1px solid rgba(0,0,0,0.1);">
+                    
+                    <h5><b>Pesanan ID: ${data.idpesanan}</b></h5>
+                    <hr>
+                    <p>Nama: ${data.nama}</p>
+                    <p>Total: Rp ${data.total}</p>
+
+                    ${menuList ? `
+                    <hr>
+
+                    <div style="overflow-x:auto;">
+                        <table class="table mt-2 text-center" 
+                            style="width:100%; font-size:14px; background:transparent;">
+
+                            <thead>
+                                <tr style="background:rgba(0,0,0,0.05);">
+                                    <th>Menu</th>
+                                    <th>Jumlah</th>
+                                    <th>Harga</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                ${menuList}
+                            </tbody>
+
+                        </table>
+                    </div>
+                    ` : ''}
+
+                    <hr>
+                    <b>Status: ${data.status_bayar == 1 ? 'Lunas' : 'Belum Bayar'}</b>
+                </div>
+            `;
+
+        } else {
+            document.getElementById('result').innerHTML = `
+                <div class="alert alert-danger">
+                    Data pesanan tidak ditemukan
+                </div>
+            `;
+        }
+    }
+
+    // 📷 START CAMERA SCAN
+    function startScanner(){
+        codeReader = new ZXing.BrowserMultiFormatReader();
+        codeReader.listVideoInputDevices().then((devices) => {
+            const selectedDeviceId = devices[devices.length - 1].deviceId;
+            codeReader.decodeFromVideoDevice(selectedDeviceId, 'reader', (result, err) => {
+                if(result){
+                    playBeep();
+                    codeReader.reset(); 
+                    ambilData(result.text);
+                }
+            });
         });
-
-    });
-}
-
-// 🖼️ SCAN DARI GAMBAR
-function scanFile(){
-
-    const fileInput = document.getElementById('fileInput');
-
-    if(fileInput.files.length === 0){
-        alert("Pilih gambar QR dulu!");
-        return;
     }
 
-    const reader = new ZXing.BrowserMultiFormatReader();
-
-    reader.decodeFromImage(undefined, URL.createObjectURL(fileInput.files[0]))
-    .then(result => {
-
-        playBeep(); // 🔊
-
-        ambilData(result.text);
-
-    })
-    .catch(() => {
-        alert("QR tidak terbaca!");
-    });
-
-}
-
-// 🔗 AMBIL DATA (FIX URL + RESPONSE)
-function ambilData(qrValue){
-
-    let id = qrValue;
-
-    // kalau QR berisi URL → ambil ID terakhir
-    if(qrValue.includes('/')){
-        id = qrValue.split('/').pop();
+    // 🖼️ SCAN DARI GAMBAR
+    function scanFile(){
+        const fileInput = document.getElementById('fileInput');
+        if(fileInput.files.length === 0){
+            alert("Pilih gambar QR dulu!");
+            return;
+        }
+        const reader = new ZXing.BrowserMultiFormatReader();
+        reader.decodeFromImage(undefined, URL.createObjectURL(fileInput.files[0]))
+        .then(result => {
+            playBeep();
+            ambilData(result.text);
+        })
+        .catch(() => {
+            alert("QR tidak terbaca!");
+        });
     }
 
-    console.log("FINAL ID:", id);
-
-    fetch("{{ url('/vendor/get-pesanan') }}/" + id)
-    .then(res => res.json())
-    .then(res => tampilkanData(res))
-    .catch(err => {
-        console.log(err);
-        document.getElementById('result').innerHTML = `
-            <div class="alert alert-danger">
-                Gagal mengambil data dari server
-            </div>
-        `;
-    });
-}
+    // 🔗 AMBIL DATA
+    function ambilData(qrValue){
+        let id = qrValue;
+        if(qrValue.includes('/')){
+            id = qrValue.split('/').pop();
+        }
+        fetch("{{ url('/vendor/get-pesanan') }}/" + id)
+        .then(res => res.json())
+        .then(res => tampilkanData(res))
+        .catch(err => {
+            document.getElementById('result').innerHTML = `
+                <div class="alert alert-danger">
+                    Gagal mengambil data dari server
+                </div>
+            `;
+        });
+    }
 
 </script>
 
