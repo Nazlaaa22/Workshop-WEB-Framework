@@ -202,6 +202,13 @@
             </a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('/kunjungan-toko') }}">
+                <span class="menu-title">Kunjungan Toko</span>
+                <i class="mdi mdi-map-marker menu-icon"></i>
+            </a>
+        </li>
+
         @endif
 
     </ul>

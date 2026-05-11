@@ -106,4 +106,18 @@ class VendorController extends Controller
             ]);
         }
     }
+
+    public function kunjunganToko()
+    {
+        return view('vendor.kunjungan_toko');
+    }
+
+    public function scanToko($barcode)
+    {
+        $toko = DB::table('lokasi_toko')
+            ->where('barcode', $barcode)
+            ->first();
+
+        return view('vendor.scan_toko', compact('toko'));
+    }
 }

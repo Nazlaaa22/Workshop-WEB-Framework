@@ -17,6 +17,7 @@ use App\Http\Controllers\VendorDashboardController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdminCustomerController;
+use App\Http\Controllers\LokasiTokoController;
 
 Auth::routes();
 
@@ -115,6 +116,12 @@ Route::get('/admin/barcode-scanner', function () {return view('admin.barcode_sca
 Route::get('/admin/barcode/get/{kode}', [BarangController::class, 'getBarcode']);
 
 Route::get('/vendor-scan-qr', [VendorController::class, 'scanQr'])->name('vendor.scan.qr');
+Route::get('/kunjungan-toko', [VendorController::class, 'kunjunganToko']);
 Route::resource('vendor', VendorController::class);
 Route::get('/vendor/get-pesanan/{id}', [VendorController::class, 'getPesanan']);
 Route::get('/pesanan/{id}', [CustomerController::class, 'detail']);
+
+Route::get('/kunjungan-toko', [LokasiTokoController::class, 'index']);
+Route::post('/kunjungan-toko/store', [LokasiTokoController::class, 'store']);
+Route::get('/barcode-toko/{barcode}', [LokasiTokoController::class, 'barcode']);
+Route::get('/kunjungan-toko/{barcode}', [VendorController::class, 'scanToko']);
