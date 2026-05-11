@@ -129,11 +129,9 @@
         </div>
 
         <div class="barcode-box">
-
             <div>
                 {!! QrCode::size(280)->generate(url('/kunjungan-toko/'.$toko->barcode)) !!}
             </div>
-
         </div>
 
         <div class="footer">
