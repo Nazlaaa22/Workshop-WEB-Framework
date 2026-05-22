@@ -17,6 +17,10 @@ class HomeController extends Controller
             return redirect('/vendor-dashboard');
         }
 
+        if (auth()->user()->role == 'adminRS') {
+            return redirect('/admin-dashboard');
+        }
+
         return view('dashboard');
     }
 }

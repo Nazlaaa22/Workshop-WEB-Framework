@@ -19,6 +19,9 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdminCustomerController;
 use App\Http\Controllers\LokasiTokoController;
 
+use App\Http\Controllers\AntrianController;
+use App\Models\Antrian;
+
 Auth::routes();
 
 Route::get('/', function () {
@@ -125,3 +128,141 @@ Route::get('/kunjungan-toko', [LokasiTokoController::class, 'index']);
 Route::post('/kunjungan-toko/store', [LokasiTokoController::class, 'store']);
 Route::get('/barcode-toko/{barcode}', [LokasiTokoController::class, 'barcode']);
 Route::get('/kunjungan-toko/{barcode}', [VendorController::class, 'scanToko']);
+
+
+Route::get('/guest', [AntrianController::class, 'guest']);
+Route::post('/guest/store', [AntrianController::class, 'store']);
+Route::get('/sse/antrian', function () {
+
+    return response()->json([
+
+        'menunggu' => Antrian::where('status', 'menunggu')->count(),
+        'dipanggil' => Antrian::where('status', 'dipanggil')->count(),
+        'terlambat' => Antrian::where('status', 'terlambat')->count(),
+        'selesai' => Antrian::where('status', 'selesai')->count(),
+
+        'loket1' => optional(
+            Antrian::where('poli', 'Poli Umum')
+            ->where('status', 'dipanggil')
+            ->latest()
+            ->first()
+        )->kode_antrian ?? '-',
+
+        'loket2' => optional(
+            Antrian::where('poli', 'Poli Gigi')
+            ->where('status', 'dipanggil')
+            ->latest()
+            ->first()
+        )->kode_antrian ?? '-',
+
+        'loket3' => optional(
+            Antrian::where('poli', 'Poli Anak')
+            ->where('status', 'dipanggil')
+            ->latest()
+            ->first()
+        )->kode_antrian ?? '-',
+
+        'loket4' => optional(
+            Antrian::where('poli', 'Poli Jantung')
+            ->where('status', 'dipanggil')
+            ->latest()
+            ->first()
+        )->kode_antrian ?? '-',
+
+        'loket5' => optional(
+            Antrian::where('poli', 'Poli Kandungan')
+            ->where('status', 'dipanggil')
+            ->latest()
+            ->first()
+        )->kode_antrian ?? '-',
+
+        'antrians' => Antrian::latest()->get(),
+
+        'next1' => optional(
+            Antrian::where('status', 'menunggu')
+            ->where('poli', 'Poli Umum')
+            ->first()
+        )->id,
+
+        'next2' => optional(
+            Antrian::where('status', 'menunggu')
+            ->where('poli', 'Poli Gigi')
+            ->first()
+        )->id,
+
+        'next3' => optional(
+            Antrian::where('status', 'menunggu')
+            ->where('poli', 'Poli Anak')
+            ->first()
+        )->id,
+
+        'next4' => optional(
+            Antrian::where('status', 'menunggu')
+            ->where('poli', 'Poli Jantung')
+            ->first()
+        )->id,
+
+        'next5' => optional(
+            Antrian::where('status', 'menunggu')
+            ->where('poli', 'Poli Kandungan')
+            ->first()
+        )->id,
+
+        'next1' => optional(
+            Antrian::where('poli', 'Poli Umum')
+            ->where('status', 'menunggu')
+            ->first()
+        )->kode_antrian ?? '-',
+
+        'next2' => optional(
+            Antrian::where('poli', 'Poli Gigi')
+            ->where('status', 'menunggu')
+            ->first()
+        )->kode_antrian ?? '-',
+
+        'next3' => optional(
+            Antrian::where('poli', 'Poli Anak')
+            ->where('status', 'menunggu')
+            ->first()
+        )->kode_antrian ?? '-',
+
+        'next4' => optional(
+            Antrian::where('poli', 'Poli Jantung')
+            ->where('status', 'menunggu')
+            ->first()
+        )->kode_antrian ?? '-',
+
+        'next5' => optional(
+            Antrian::where('poli', 'Poli Kandungan')
+            ->where('status', 'menunggu')
+            ->first()
+        )->kode_antrian ?? '-',
+    ]);
+});
+Route::get('/admin-dashboard', function () {$antrians = Antrian::latest()->get();return view('adminrs.dashboard', compact('antrians'));});
+Route::post('/panggil/{id}/{loket}', function ($id, $loket) {
+    $antrian = Antrian::find($id);
+    $antrian->update([
+        'status' => 'dipanggil',
+        'loket' => $loket
+    ]);
+    return back();
+});
+Route::post('/status/{id}/{status}', function ($id, $status) {
+    $antrian = Antrian::find($id);
+    $loket = match($antrian->poli){
+        'Poli Umum' => 1,
+        'Poli Gigi' => 2,
+        'Poli Anak' => 3,
+        'Poli Jantung' => 4,
+        'Poli Kandungan' => 5,
+    };
+    $antrian->update([
+        'status' => $status,
+        'loket' => $loket,
+        'updated_at' => now()
+    ]);
+    return back();
+});
+Route::get('/reset-antrian', function () {\App\Models\Antrian::truncate();return redirect('/admin-dashboard');});
+Route::get('/papan-antrian', function () {return view('antrian.papan-antrian');});
