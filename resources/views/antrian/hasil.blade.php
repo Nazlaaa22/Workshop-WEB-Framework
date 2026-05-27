@@ -270,7 +270,6 @@
         </div>
 
         <div class="ticket-box">
-
             <div class="ticket-label">
                 NOMOR ANTRIAN ANDA
             </div>

@@ -10,13 +10,11 @@
                 Sistem Antrian Rumah Sakit Realtime
             </p>
         </div>
-
         <h4>Halo, {{ auth()->user()->name }}</h4>
     </div>
 
     {{-- CARD --}}
     <div class="row mb-4">
-
         <div class="col-md-3">
             <div class="card bg-gradient-primary text-white">
                 <div class="card-body">

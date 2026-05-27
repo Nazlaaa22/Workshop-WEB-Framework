@@ -12,15 +12,10 @@ return new class extends Migration
         Schema::create('antrians', function (Blueprint $table) {
 
             $table->id();
-
             $table->string('kode_antrian');
-
             $table->string('nama_pasien');
-
             $table->string('poli');
-
             $table->integer('loket')->nullable();
-
             $table->enum('status', [
                 'menunggu',
                 'dipanggil',
@@ -29,7 +24,6 @@ return new class extends Migration
             ])->default('menunggu');
 
             $table->timestamp('waktu_panggil')->nullable();
-
             $table->timestamps();
         });
     }

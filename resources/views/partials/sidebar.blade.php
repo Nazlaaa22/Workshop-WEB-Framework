@@ -167,6 +167,13 @@
                 <i class="mdi mdi-barcode-scan menu-icon"></i>
             </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/nfc">
+                <span class="menu-title">Absensi NFC</span>
+                <i class="mdi mdi-cellphone-nfc menu-icon"></i>
+            </a>
+        </li>
         @endif
 
 

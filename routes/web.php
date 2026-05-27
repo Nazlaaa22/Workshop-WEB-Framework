@@ -22,6 +22,10 @@ use App\Http\Controllers\LokasiTokoController;
 use App\Http\Controllers\AntrianController;
 use App\Models\Antrian;
 
+use App\Models\NfcLog;
+use App\Models\KartuNfc;
+
+
 Auth::routes();
 
 Route::get('/', function () {
@@ -266,3 +270,64 @@ Route::post('/status/{id}/{status}', function ($id, $status) {
 });
 Route::get('/reset-antrian', function () {\App\Models\Antrian::truncate();return redirect('/admin-dashboard');});
 Route::get('/papan-antrian', function () {return view('antrian.papan-antrian');});
+
+
+
+Route::get('/nfc', function () {return view('nfc.index');});
+Route::post('/nfc/store', function(Request $request){
+    NfcLog::create([
+        'serial_number' => $request->serial_number,
+        'scan_time' => now()
+    ]);
+
+    return response()->json([
+        'success' => true
+    ]);
+});
+Route::post('/nfc/save', [HomeController::class, 'saveNfc']);
+Route::post('/nfc/register', [HomeController::class, 'registerNfc']);
+Route::post('/nfc/register', function(Request $request){
+    KartuNfc::create([
+        'nama' => $request->nama,
+        'serial_number' => $request->serial_number
+    ]);
+
+    return response()->json([
+        'message' => 'Kartu berhasil didaftarkan'
+    ]);
+
+});
+Route::post('/nfc/check', function(Request $request){
+    $kartu = KartuNfc::where(
+        'serial_number',
+        $request->serial_number
+    )->first();
+
+    if($kartu){
+        return response()->json([
+            'success' => true,
+            'nama' => $kartu->nama
+        ]);
+    }
+
+    return response()->json([
+        'success' => false
+    ]);
+});
+Route::get('/nfc/riwayat', function () {$logs = NfcLog::latest()->get();return view('nfc.riwayat', compact('logs'));});
+Route::post('/nfc/save', function(Request $request){
+    $kartu = KartuNfc::where(
+        'serial_number',
+        $request->serial_number
+    )->first();
+
+    NfcLog::create([
+        'nama' => $kartu ? $kartu->nama : 'Tidak Dikenal',
+        'serial_number' => $request->serial_number,
+        'scan_time' => now()
+    ]);
+
+    return response()->json([
+        'success' => true
+    ]);
+});

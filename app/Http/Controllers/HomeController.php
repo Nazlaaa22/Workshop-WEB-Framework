@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\NfcLog;
 
 class HomeController extends Controller
 {
@@ -22,5 +23,37 @@ class HomeController extends Controller
         }
 
         return view('dashboard');
+    }
+
+    public function saveNfc(Request $request)
+    {
+        NfcLog::create([
+            'serial_number' => $request->serial_number,
+            'waktu_scan' => now()
+        ]);
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
+    public function registerNfc(Request $request)
+    {
+        KartuNfc::create([
+
+            'nama' => $request->nama,
+
+            'serial_number' =>
+                $request->serial_number
+
+        ]);
+
+        return response()->json([
+
+            'success' => true,
+
+            'message' => 'Kartu berhasil didaftarkan'
+
+        ]);
     }
 }

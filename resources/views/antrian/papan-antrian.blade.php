@@ -155,8 +155,8 @@
             let sedangBersuara = false;
 
             function realtimePapan(){
-                fetch('/sse/antrian')
-                .then(res => res.json())
+                ('/sse/antrian')
+                .then(res => res.fetchjson())
                 .then(data => {
                     for(let i = 1; i <= 5; i++){
                         const current = data['loket' + i];

@@ -12,7 +12,6 @@ class AntrianController extends Controller
         return view('antrian.guest');
     }
 
-
     public function store(Request $request)
     {
         $request->validate([
