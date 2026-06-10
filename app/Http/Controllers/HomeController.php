@@ -40,20 +40,15 @@ class HomeController extends Controller
     public function registerNfc(Request $request)
     {
         KartuNfc::create([
-
             'nama' => $request->nama,
-
             'serial_number' =>
                 $request->serial_number
 
         ]);
 
         return response()->json([
-
             'success' => true,
-
             'message' => 'Kartu berhasil didaftarkan'
-
         ]);
     }
 }
